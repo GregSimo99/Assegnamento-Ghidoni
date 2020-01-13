@@ -1,0 +1,3 @@
+47890 frullatore
+67890 compA 7
+36543 compD 8

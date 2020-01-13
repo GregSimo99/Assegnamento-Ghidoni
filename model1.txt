@@ -1,0 +1,3 @@
+12345 apirapolvere
+67890 compA 7
+99876 compBc 10
