@@ -1,7 +1,9 @@
 
 #include <iostream>
+#include "header.h"
 
 int main() {
-    std::cout << "Hello, World!\n";
+    Azienda a{};
+    a.lettura_elettrodomestici();
     return 0;
 }
