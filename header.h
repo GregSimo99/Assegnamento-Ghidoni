@@ -37,6 +37,9 @@ public:
     //funzioni per leggere i dati
     void lettura_elettrodomestici();
     void lettura_componetsInfo();
+	void lettura_ordini();
+	bool is_componente();
+	bool is_elettrodomestico();
 private:
     int cassa, mese;
     vector<Elettrodomestico> catalogo;

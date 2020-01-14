@@ -1,3 +1,4 @@
-47890 frullatore
-67890 compA 7
-36543 compD 8
+20002 frullatore
+10001 compA 7
+10004 compD 8
+10005 compE 50
