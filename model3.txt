@@ -1,4 +1,4 @@
-20003 frigo
+20003 frigo 700
 10005 compE 52
 10006 compF 8
 10007 compG 5
