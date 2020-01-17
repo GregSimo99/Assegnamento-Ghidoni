@@ -9,6 +9,13 @@ public:
     Componente(){}
     ~Componente(){}
     //get e set se servono
+    int get_id() const { return id; }
+    int get_quantita() const { return quantita; }
+    string get_nome() const { return nome; }
+    int get_arrivo() const { return arrivo; }
+    void set_quantita(int n) { quantita = n; }
+    bool operator ==(Componente a) { return id == a.id; }
+
 private:
     int id, d_time, quantita, arrivo;
     std::string nome;
@@ -20,7 +27,11 @@ class Elettrodomestico
 public:
     Elettrodomestico(){}
     ~Elettrodomestico(){}
-
+    int get_id() const { return id; }
+    int get_quantita() const { return quantita; }
+    string get_nome() const { return nome; }
+    int get_timestamp() const { return time_stamp; }
+    //vector<Componente> get_componenti() { return componenti; }
 private:
     int id, time_stamp, stato, quantita;
     std::vector<Componente> componenti;
@@ -34,6 +45,8 @@ public:
     Azienda();
     ~Azienda();
 
+    void current_state();
+    void controllo_arrivi();
     //funzioni per leggere i dati
     void lettura_elettrodomestici();
     void lettura_componetsInfo();
@@ -46,6 +59,7 @@ private:
     vector<Elettrodomestico> ordini;
     vector<Componente> magazzino;
     vector<Componente> cAttesa;
+    vector<Elettrodomestico> evasi;
     //vector<string> ris;
 };
 
