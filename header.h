@@ -9,14 +9,13 @@ public:
 	Componente();
 	Componente(int i, int time, string n, double *p, int q, int a);
 	~Componente(){}
-    //get e set
-	int get_id() const { return id; }
+    int get_id() const { return id; }
 	int get_quantita() const { return quantita; }
 	string get_nome() const { return nome; }
 	int get_arrivo() const { return arrivo; }
 	void set_quantita(int n) { quantita = n; }
 	//bool operator ==(Componente a) { return id == a.id; }
-	void setArrivo(int a){arrivo = a;}
+	void setArrivo(int a) {arrivo = a;}
 	int getD_time() const {return d_time;}
 	double* getPrice() {return price;}
 	
@@ -26,21 +25,34 @@ private:
     double price[3];
 };
 
+class Componente_richiesto
+{
+public:
+	Componente_richiesto(int i, string n, int q);
+private:
+	int id, quantita;
+	string nome;
+};
+
 class Elettrodomestico
 {
 public:
 	Elettrodomestico(){};
-	Elettrodomestico(int i, string n, double p, vector<Componente> &comp);
+	Elettrodomestico(int i, string n, double p, vector<Componente_richiesto> &comp, int q); //CAMBIARE DEFINIZIONE IN sorgente1.cpp
     ~Elettrodomestico(){}
 	
 	int getId() const {return id;}
 	string getNome() const {return nome;}
 	double getPrice() const {return price;}
+	void setQ(int n) { quantita = n; }
+	int getQ() const { return quantita; }
+	//vector<Componente_richiesto>& getComp() const { return componenti; }
+
 private:											 
-    int id;
-    vector<Componente> componenti;
+    int id, quantita;
+    vector<Componente_richiesto> componenti;
     string nome;
-    double price;           //da calcolare sommando tutti i componeti? oppure leggendolo dal file?
+    double price;           //letto da file
 };
 
 class Ordine
@@ -63,15 +75,16 @@ class Azienda
 public:
     Azienda();
     ~Azienda();
-	void current_state();
+	
 	//funzioni per leggere i dati
-    void lettura_elettrodomestici();
+    void lettura_elettrodomestici();   //CONTROLLARE Componente_richiesto IN sorgente1.cpp
     void lettura_componentsInfo();
 	void lettura_ordini();
 	
-	void lista_attesaOrdini();				//funzione che ordina gli ordini in base al time_stamp
+	void current_state();             //funzione che stampa stato corrente
+	void lista_attesaOrdini();		  //funzione che ordina gli ordini in base al time_stamp
 	void controllo_arrivi();          //funzione che sposta componente arrivato da cAttesa a magazzino
-	void getOrdini_in_Produzione();			//funzione che cerca nel vettore ordini quelli con time_stap = al mese e li carica come elettrodomestico (cercando l'id in catalogo ) e che inizializza arrivo
+	void commissione_ordini();		  //funzione che cerca nel vettore ordini quelli con time_stamp = al mese e li carica come elettrodomestico (cercando l'id in catalogo ) e che inizializza arrivo
 private:										
     int cassa, mese;
     vector<Elettrodomestico> catalogo;
@@ -85,3 +98,5 @@ private:
 //helper function
 
 int trova_Componente(int id, const vector<Componente> &c);	//trova componente su array magazzino. const?
+int trova_Elettrodomestico(int id, const vector<Elettrodomestico>& e);
+bool cmp(Ordine a, Ordine b);

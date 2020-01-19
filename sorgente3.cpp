@@ -34,7 +34,7 @@ void Azienda::current_state()
 		std::cout << s << '\n';
 	}
 }
-void Azienda::controllo_arrivi() //scansiono il vettore dei componenenti in arrivo e se sono arrivati aggiorno il magazzino
+void Azienda::controllo_arrivi() //scansiono il vettore dei componenti in arrivo e se sono arrivati aggiorno il magazzino
 {
 	for (int i = 0; i < cAttesa.size(); i++)
 	{
@@ -49,3 +49,51 @@ void Azienda::controllo_arrivi() //scansiono il vettore dei componenenti in arri
 	}
 }
 
+bool cmp(Ordine a, Ordine b)
+{
+	return a.getTs() < b.getTs();
+}
+void Azienda::lista_attesaOrdini() //ordina vettore ordini secondo timestamp
+{
+	sort(ordini.begin(), ordini.end(), cmp);
+}
+
+int trova_Elettrodomestico(int id, const vector<Elettrodomestico>& e)
+{
+	for (int i = 0; i < e.size(); i++) {
+			if (e[i].getId() == id)
+				return i;
+		}
+		return -1;
+}
+
+//funzione che cerca nel vettore ordini quelli con time_stamp = al mese e li carica come elettrodomestico (cercando l'id in catalogo) in ordiniP
+void Azienda::commissione_ordini()
+{
+	//vettore ordini già ordinato secondo time_stamp
+	int i = 0;
+	std::vector<Elettrodomestico> v;
+	while(ordini[i].getTs()==mese)
+	{
+		Ordine o = ordini[i];
+		int j = trova_Elettrodomestico(o.getId(), catalogo);
+		Elettrodomestico e = catalogo[j];
+		v(0);                      //sommo ordini dello stesso elettrodomestico (e con stesso time_stamp)
+		int t = 0;
+		int k = trova_Elettrodomestico(o.getId(), v);
+		if (k == -1)
+		{
+			v.push_back(e);
+			v[t].setQ(o.getQ());
+			t++;
+		}
+		else
+		{
+			v[k].setQ(v[k].getQ() + o.getQ());
+		}
+		ordini.erase(ordini.begin() + i); //cancello da ordini quelli che ho messo in ordiniP?
+		i++;
+	}
+	for (int i = 0; i < v.size(); i++)
+		ordiniP.push_back(v[i]);
+}
