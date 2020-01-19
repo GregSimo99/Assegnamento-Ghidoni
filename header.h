@@ -15,7 +15,7 @@ public:
 	string get_nome() const { return nome; }
 	int get_arrivo() const { return arrivo; }
 	void set_quantita(int n) { quantita = n; }
-	bool operator ==(Componente a) { return id == a.id; }
+	//bool operator ==(Componente a) { return id == a.id; }
 	void setArrivo(int a){arrivo = a;}
 	int getD_time() const {return d_time;}
 	double* getPrice() {return price;}
@@ -64,14 +64,13 @@ public:
     Azienda();
     ~Azienda();
 	void current_state();
-	void controllo_arrivi();
-    //funzioni per leggere i dati
+	//funzioni per leggere i dati
     void lettura_elettrodomestici();
-    void lettura_componetsInfo();
+    void lettura_componentsInfo();
 	void lettura_ordini();
 	
 	void lista_attesaOrdini();				//funzione che ordina gli ordini in base al time_stamp
-	//funzione che sposta componente arrivato da cAttesa a magazzino
+	void controllo_arrivi();          //funzione che sposta componente arrivato da cAttesa a magazzino
 	void getOrdini_in_Produzione();			//funzione che cerca nel vettore ordini quelli con time_stap = al mese e li carica come elettrodomestico (cercando l'id in catalogo ) e che inizializza arrivo
 private:										
     int cassa, mese;
@@ -79,8 +78,8 @@ private:
 	vector<Elettrodomestico> ordiniP;				//ordini in produzione così posso sommare ordini di elettrodomestici uguali
     vector<Ordine> ordini;
     vector<Componente> magazzino;
-    vector<Componente> cAttesa;
-	vector<Elettrodomestico> evasi;
+    vector<Componente> cAttesa;    //componenti in arrivo
+	vector<Ordine> evasi;
 };
 
 //helper function

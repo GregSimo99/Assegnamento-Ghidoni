@@ -1,10 +1,9 @@
-//Silvia Pasin
+//Silvia Pasin  1189331
 
 #include <iostream>
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <iterator>
 #include "header.h"
 void Azienda::current_state()
 {
@@ -30,8 +29,8 @@ void Azienda::current_state()
 	std::cout << "Ordini evasi: " << '\n';
 	for (int i = 0; i < evasi.size(); i++)
 	{
-		Elettrodomestico e = evasi[i];
-		std::string s = to_string(e.get_id()) + ", " + e.get_nome() + ": " + to_string(e.get_quantita());
+		Ordine e = evasi[i];
+		std::string s = to_string(e.getId()) + ": " + to_string(e.getQ());
 		std::cout << s << '\n';
 	}
 }
@@ -42,8 +41,9 @@ void Azienda::controllo_arrivi() //scansiono il vettore dei componenenti in arri
 		Componente c = cAttesa[i];
 		if (c.get_arrivo() == mese)
 		{
-		    vector<Componente>::iterator p = std::find(magazzino.begin(), magazzino.end(), c);
-			(*p).set_quantita((*p).get_quantita() + c.get_quantita());
+			int p = trova_Componente(c.get_id(), magazzino);
+			Componente m = magazzino[p];
+			m.set_quantita(m.get_quantita() + c.get_quantita());
 			cAttesa.erase(cAttesa.begin() + i);
 		}			
 	}

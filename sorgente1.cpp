@@ -42,16 +42,16 @@ void Ordine::setStato(int s){
 }
 
 Azienda::Azienda(){
-	lettura_componetsInfo();
+	lettura_componentsInfo();
 	lettura_elettrodomestici();
 	lettura_ordini();
 }
 Azienda::~Azienda(){}
 
-void Azienda::lettura_componetsInfo(){
-    ifstream file("componets_info.txt");
+void Azienda::lettura_componentsInfo(){
+    ifstream file("components_info.txt");
     if (file.is_open()) {
-        cout<<endl<<"COMPONETS INFO"<<endl;
+        cout<<endl<<"COMPONENTS INFO"<<endl;
         while (file.good()) {
             int id;
             file>>id;
@@ -118,7 +118,7 @@ void Azienda::lettura_elettrodomestici(){
 					comp.push_back(Componente(iC, magazzino[pos].getD_time(), nC, magazzino[pos].getPrice(), q, -1));
 				}
 				else
-					cout<<"Errore: componete non trovato"<<endl;
+					cout<<"Errore: componente non trovato"<<endl;
             }
 			cout<<"-----> id: "<<iE<<endl;
 			catalogo.push_back(Elettrodomestico(iE, nE, p, comp));
@@ -158,7 +158,7 @@ void Azienda::lettura_ordini(){
 
 int trova_Componente(int id, const vector<Componente> &c){
 	for (int i = 0; i<c.size(); i++) {
-		if (c[i].getId()==id) 
+		if (c[i].get_id()==id) 
 			return i;
 	}
 	return -1;
