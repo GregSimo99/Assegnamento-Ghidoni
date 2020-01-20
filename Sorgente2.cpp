@@ -6,60 +6,24 @@
 
 using namespace std;
 
-void componente::tempo_attesa(int tempo, int mese) {
-	int anno = 2020;
-	mese = mese + tempo;
+int Azienda::prox_mese() {
+	++mese; //mese successivo
+	_sleep(1500); //attesa di 1.5 secondi per simulare il trascorrere dei mesi
+	cout << "--------  " << mese << "° mese  --------" << endl;
 
-	while (mese > 12) //ogni volta che il mese è più di 12, incrementa l'anno e reimposta il mese
-	do{
-		++anno;
-		mese = mese - 12;
-	}
+	/*for (int i = 0; i < cAttesa.size(); ++i) { //decremento di un mese il tempo di attesa dei componenti
+		Componente c = cAttesa[i];
+		if (c.get_arrivo() != 0) --c.get_arrivo;
+		else
+			controllo_arrivi(); //quando arriva a 0 il componente è arrivato
+	}*/
+	return mese;
+}
 
-	_sleep(2000); //attesa di 2 secondi per il trascorrere dei mesi
+void produzione() {
 
-	cout << tempo << " mesi dopo\nSiamo in ";
-	switch (mese)
-	{
-	case 1:
-		cout << "gennaio ";
-		break;
-	case 2:
-		cout << "febbraio ";
-		break;
-	case 3:
-		cout << "marzo ";
-		break;
-	case 4:
-		cout << "aprile ";
-		break;
-	case 5:
-		cout << "maggio ";
-		break;
-	case 6:
-		cout << "giugno ";
-		break;
-	case 7:
-		cout << "luglio ";
-		break;
-	case 8:
-		cout << "agosto ";
-		break;
-	case 9:
-		cout << "settembre ";
-		break;
-	case 10:
-		cout << "ottobre ";
-		break;
-	case 11:
-		cout << "novembre ";
-		break;
-	case 12:
-		cout << "dicembre ";
-		break;
-	default: //messaggio di errore?
-		break;
-	}
+}
 
-	cout << anno << endl;
+bool ricerca_comp(int id) { //Controlla i componenti in magazzino per l'ordine
+	 
 }
