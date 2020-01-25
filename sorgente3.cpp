@@ -97,3 +97,25 @@ void Azienda::commissione_ordini()
 	for (int i = 0; i < v.size(); i++)
 		ordiniP.push_back(v[i]);
 }
+
+bool Azienda::ordina_comp(int id, int quantita)
+{
+	int p = trova_Componente(id, magazzino);
+	Componente c = magazzino[p];
+	double* prices = c.getPrice();
+	double price = 0;
+	if (quantita >= 0 && quantita <= 10)
+		price = prices[0];
+	else if(quantita >= 11 && quantita <= 50)
+		price = prices[1];
+	else if(quantita >= 51)
+		price = prices[2];
+	if (price * quantita <= cassa)
+	{
+		cAttesa.push_back(c);
+		cAttesa.back().setArrivo(c.getD_time() + mese);
+		cassa = cassa - price * quantita;
+		return true;
+	}
+	else return false;
+}

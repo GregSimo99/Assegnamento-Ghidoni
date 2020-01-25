@@ -85,6 +85,10 @@ public:
 	void lista_attesaOrdini();		  //funzione che ordina gli ordini in base al time_stamp
 	void controllo_arrivi();          //funzione che sposta componente arrivato da cAttesa a magazzino
 	void commissione_ordini();		  //funzione che cerca nel vettore ordini quelli con time_stamp = al mese e li carica come elettrodomestico (cercando l'id in catalogo ) e che inizializza arrivo
+	bool ordina_comp(int id, int quantita); //funzione che ordina il componente (ritorna true se è stato ordinato, false altrimenti)
+	void produzione();
+	bool ricerca_comp(int id, int quantita);	//funzione che controlla se ci sono i componenti in magazzino per produrlo
+	
 private:										
     int cassa, mese;
     vector<Elettrodomestico> catalogo;
