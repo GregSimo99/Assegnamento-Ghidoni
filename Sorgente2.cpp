@@ -48,8 +48,7 @@ void Azienda::produzione() //legge i componenti necessari per la produzione
 						bool ordinato = ordina_comp(id, quantita);
 						if (ordinato) comp[j].setStato(true);
 					}
-					evadere = false; //se manca un solo componente non si può evadere l'ordine
-					
+					evadere = false; //se manca un solo componente non si può evadere l'ordine					
 				}				
 			}
 			if (evadere)
