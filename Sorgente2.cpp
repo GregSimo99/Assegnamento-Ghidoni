@@ -11,7 +11,7 @@ int Azienda::prox_mese()
 {
 	++mese;
 	_sleep(1500); //attesa di 1.5 secondi per simulare il trascorrere dei mesi
-	cout << "----------  " << mese << "∞ mese  ----------" << endl;
+	cout << "----------  " << mese << "¬∞ mese  ----------" << endl;
 
 	return mese;
 }
@@ -22,7 +22,7 @@ void Azienda::produzione() //legge i componenti necessari per la produzione
 	for (int i = 0; i < ordiniP.size(); i++)
 	{
 		Elettrodomestico& el = ordiniP[i];
-		if (el.getStato()) //se Ë stato prodotto l'elettrodomestico
+		if (el.getStato()) //se √® stato prodotto l'elettrodomestico
 		{
 			evasi.push_back(Ordine(el.getId(), 0, el.getQ(), 0));
 			ordiniP.erase(ordiniP.begin() + i);
@@ -31,7 +31,7 @@ void Azienda::produzione() //legge i componenti necessari per la produzione
 		else //ordine non ancora processato
 		{
 			vector<Componente_richiesto>& comp = el.getComp(); //vettore che contiene i componenti di ogni elettrodomestico da produrre
-			int k = el.getQ(); //k contiene la quantit‡ degli elettrodomestici da produrre
+			int k = el.getQ(); //k contiene la quantit√† degli elettrodomestici da produrre
 
 			bool evadere = true;
 			for (int j = 0, j < comp.size(), j++)
@@ -41,14 +41,14 @@ void Azienda::produzione() //legge i componenti necessari per la produzione
 
 				bool esito = ricerca_comp(id, quantita); //true se trovato il componente, false altrimenti
 
-				if (!esito) //se non Ë in magazzino Ë da ordinare
+				if (!esito) //se non √® in magazzino √® da ordinare
 				{
 					if (!comp[j].getStato())
 					{
 						bool ordinato = ordina_comp(id, quantita);
 						if (ordinato) comp[j].setStato(true);
 					}
-					evadere = false; //se manca un solo componente non si puÚ evadere l'ordine
+					evadere = false; //se manca un solo componente non si pu√≤ evadere l'ordine
 					
 				}				
 			}
@@ -57,8 +57,6 @@ void Azienda::produzione() //legge i componenti necessari per la produzione
 				e.setStato(true);
 				for (int i = 0; i < comp.size[]; i++) tolgo_magazzino(comp[i].get_id(), k * comp[i].get_quantita());
 			}
-
-			ordiniP[i].stato_ordine() = true; //ordine processato
 		}
 	}
 }
