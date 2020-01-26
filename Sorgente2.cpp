@@ -51,6 +51,7 @@ void Azienda::produzione() //legge i componenti necessari per la produzione
 					evadere = false; //se manca un solo componente non si può evadere l'ordine					
 				}				
 			}
+			
 			if (evadere)
 			{
 				e.setStato(true);
