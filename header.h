@@ -29,6 +29,8 @@ class Componente_richiesto
 {
 public:
 	Componente_richiesto(int i, string n, int q);
+	int get_id() const{return id;}
+	int get_quantita() const {return quantita;}
 private:
 	int id, quantita;
 	string nome;
@@ -38,7 +40,7 @@ class Elettrodomestico
 {
 public:
 	Elettrodomestico(){};
-	Elettrodomestico(int i, string n, double p, vector<Componente_richiesto> &comp, int q); //CAMBIARE DEFINIZIONE IN sorgente1.cpp
+	Elettrodomestico(int i, string n, double p, vector<Componente_richiesto> &comp, int q); 
     ~Elettrodomestico(){}
 	
 	int getId() const {return id;}
@@ -46,7 +48,7 @@ public:
 	double getPrice() const {return price;}
 	void setQ(int n) { quantita = n; }
 	int getQ() const { return quantita; }
-	//vector<Componente_richiesto>& getComp() const { return componenti; }
+	vector<Componente_richiesto>& get_Comp() { return componenti; }			//devo per forza non mettere const 
 
 private:											 
     int id, quantita;
@@ -88,6 +90,8 @@ public:
 	bool ordina_comp(int id, int quantita); //funzione che ordina il componente (ritorna true se è stato ordinato, false altrimenti)
 	void produzione();
 	bool ricerca_comp(int id, int quantita);	//funzione che controlla se ci sono i componenti in magazzino per produrlo
+	void tolgo_magazzino(int id, int quantita);	//funzione che diminuisce la quantita nel magazzino di un certo componente
+	void calcola_guadagno(int idE, int quantita);				//funzione che calcola il guadagno e aggiorna la cassa
 	
 private:										
     int cassa, mese;

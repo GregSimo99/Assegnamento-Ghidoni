@@ -18,20 +18,26 @@ Componente::Componente(int i, int time, string n, double *p, int q, int a){
 	arrivo = a;
 }
 
-Elettrodomestico::Elettrodomestico(int i, string n, double p, vector<Componente> &comp){
+Elettrodomestico::Elettrodomestico(int i, string n, double p, vector<Componente_richiesto> &comp, int q){
 	id = i;
 	nome = n;
 	price = p;
 	componenti = comp;
+	quantita = q;
 }
 
-//Elettrodomestico::Elettrodomestico(): id{0}, nome{""}, price{0}, componenti(nullptr){};
 
 Ordine::Ordine(int i, int ts, int q, int s){
 	id = i;
 	time_stamp = ts;
 	quantita = q;
 	stato = s;
+}
+
+Componente_richiesto::Componente_richiesto(int i, string n, int q){
+	id = i;
+	nome = n;
+	quantita = q;
 }
 
 void Ordine::setStato(int s){
@@ -49,25 +55,20 @@ Azienda::Azienda(){
 Azienda::~Azienda(){}
 
 void Azienda::lettura_componentsInfo(){
-    ifstream file("components_info.txt");
+    ifstream file("componets_info.txt");
     if (file.is_open()) {
-        cout<<endl<<"COMPONENTS INFO"<<endl;
+        cout<<endl<<"COMPONETS INFO"<<endl;
         while (file.good()) {
             int id;
             file>>id;
-            cout<<"id: "<<id<<endl;
             string s;
             file>>s;
-            cout<<"s: "<<s<<endl;
             int dtime;
             file>>dtime;
-            cout<<"dtime: "<<dtime<<endl;
             double d[3];
             for (int i=0; i<3; i++) {
                 file>>d[i];
-                cout<<"prezzo"<<i<<": "<<d[i]<<endl;
             }
-            cout<<endl;
 			magazzino.push_back(Componente(id, dtime, s, d,0,-1));		//arrivo inizializzato a -1
         }
 		
@@ -93,35 +94,21 @@ void Azienda::lettura_elettrodomestici(){
     for (int i=0; i<ris.size(); i++) {
         ifstream file(ris[i]);
         if (file.is_open()) {
-			vector<Componente> comp;
+			vector<Componente_richiesto> comp;
             int iE,iC,q;
 			double p;
 			string nE,nC;
             file>>iE;
-            //cout<<"iE: "<<iE<<endl;
             file>>nE;
-            //cout<<"nE: "<<nE<<endl;
 			file>>p;
-			//cout<<"p: "<<p<<endl;
 			
 			while (file.good()) {                               //manca chiamata costrutturi
-                cout<<endl<<"COMPONENTI"<<endl;
                 file>>iC;
-                cout<<"ic: "<<iC<<endl;
                 file>>nC;
-                cout<<"nC: "<<nC<<endl;
                 file>>q;
-                cout<<"q: "<<q<<endl;
-				//trova componete per mese e prezzo
-				int pos = trova_Componente(iC, magazzino);
-				if (pos!=-1) {
-					comp.push_back(Componente(iC, magazzino[pos].getD_time(), nC, magazzino[pos].getPrice(), q, -1));
-				}
-				else
-					cout<<"Errore: componente non trovato"<<endl;
+				comp.push_back(Componente_richiesto{iC, nC, q});
             }
-			cout<<"-----> id: "<<iE<<endl;
-			catalogo.push_back(Elettrodomestico(iE, nE, p, comp));
+			catalogo.push_back(Elettrodomestico(iE, nE, p, comp,0));		//quantità inizializza a 0 su catalogo
             file.close();
         }
         else
@@ -132,26 +119,52 @@ void Azienda::lettura_elettrodomestici(){
 void Azienda::lettura_ordini(){
 	ifstream file("orders.txt");							//CAMBIARE ESTENSIONE SU TUTTI!!
     if (file.is_open()) {
-        cout<<endl<<"ORDINI"<<endl;
 		int c = 0, ts = 0, iO = 0, q = 0;
 		file>>c;
-		cout<<"cassa: "<<c<<endl;
 		cassa = c;											//inizializzazione cassa
         while (file.good()) {                              
-            
             file>>ts;
-            cout<<"time_stamp: "<<ts<<endl;
             file>>iO;
-            cout<<"id: "<<iO<<endl;
             file>>q;
-            cout<<"quantity: "<<q<<endl<<endl;
-            }
 			ordini.push_back(Ordine(iO, ts, q, 0));			//serve lo stato?
+            }
 			
 			file.close();
         }
 		else
 			cout<<"Errore: file non trovato"<<endl;
+}
+
+void Azienda::tolgo_magazzino(int id, int quantita){
+	for (int i = 0; i<magazzino.size(); i++) {
+		if (magazzino[i].get_id()==id) {
+			int q = magazzino[i].get_quantita() - quantita;
+			magazzino[i].set_quantita(q);
+		}
+	}
+}
+
+void Azienda::calcola_guadagno(int idE, int q) { 	//calcola guadagno ed aggiorna cassa
+	int costo = 0, pVendita = 0, qC = 0, id;
+	int pos = trova_Elettrodomestico(idE, catalogo);
+	pVendita = catalogo[pos].getPrice();			//leggo prezzo di vendita
+	
+	for (int i = 0; i<catalogo[pos].get_Comp().size(); i++) {
+		qC = catalogo[pos].get_Comp()[i].get_quantita();	//trovo  quantità e id del componente utlizzato
+		id = catalogo[pos].get_Comp()[i].get_id();
+		double* prezzi = magazzino[trova_Componente(id, magazzino)].getPrice();
+		
+		if (qC >= 0 && qC <= 10)							//calcolo costo in base alla quantità
+			costo = costo+prezzi[0];
+		else 
+			if(qC >= 11 && qC <= 50)
+				costo = costo+prezzi[1];
+			else 
+				if(qC >= 51)
+					costo = costo+prezzi[2];
+	}
+	cassa = cassa+pVendita-costo*q;
+	
 }
 
 //helper funcion
@@ -163,3 +176,5 @@ int trova_Componente(int id, const vector<Componente> &c){
 	}
 	return -1;
 }
+
+
