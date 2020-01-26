@@ -59,8 +59,6 @@ void Azienda::produzione() //legge i componenti necessari per la produzione
 			}
 
 			ordiniP[i].stato_ordine() = true; //ordine processato
-
-			if (evadere) evasione_ordine(el.get_id()); //evasione dell'ordine se ci sono tutti i componenti necessari
 		}
 	}
 }
@@ -74,13 +72,7 @@ bool Azienda::ricerca_comp(int id, int quantita) //controlla se ci sono i compon
 
 		Componente comp = magazzino[i]; //componenti del magazzino
 
-		if (id == comp.get_id() && quantita <= comp.get_quantita())
-		{
-			if(quantita == comp.get_quantita()) comp.erase(comp.begin() + i); //se c'è  l'esatto numero di componenti nel magazzino, li elimino
-			else comp.set_quantita(comp.get_quantita() - quantita); //sennò aggiorno la quantità
-			
-			return true;
-		}
+		if (id == comp.get_id() && quantita <= comp.get_quantita())	return true;
 
 		return false
 	}
