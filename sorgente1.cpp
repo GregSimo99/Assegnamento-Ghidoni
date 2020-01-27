@@ -6,6 +6,7 @@
 #include <string.h>
 
 //costruttori
+using namespace std;
 
 Componente::Componente(int i, int time, string n, double *p, int q, int a){
 	id = i;
@@ -27,24 +28,16 @@ Elettrodomestico::Elettrodomestico(int i, string n, double p, vector<Componente_
 }
 
 
-Ordine::Ordine(int i, int ts, int q, int s){
+Ordine::Ordine(int i, int ts, int q){
 	id = i;
 	time_stamp = ts;
 	quantita = q;
-	stato = s;
 }
 
 Componente_richiesto::Componente_richiesto(int i, string n, int q){
 	id = i;
 	nome = n;
 	quantita = q;
-}
-
-void Ordine::setStato(int s){
-	if(s>=0 && s<=2)
-		stato = s;
-	else
-		cout<<"Errore: identificativo stato non previsto"<<endl;
 }
 
 Azienda::Azienda(){
@@ -107,7 +100,7 @@ void Azienda::lettura_elettrodomestici(){
                 file>>q;
 				comp.push_back(Componente_richiesto{iC, nC, q});
             }
-			catalogo.push_back(Elettrodomestico(iE, nE, p, comp,0));		//quantità inizializza a 0 su catalogo
+			catalogo.push_back(Elettrodomestico(iE, nE, p, comp, 0));		//quantità inizializza a 0 su catalogo
             file.close();
         }
         else
@@ -125,7 +118,7 @@ void Azienda::lettura_ordini(){
             file>>ts;
             file>>iO;
             file>>q;
-			ordini.push_back(Ordine(iO, ts, q, 0));			//serve lo stato?
+			ordini.push_back(Ordine(iO, ts, q));			//serve lo stato?
             }
 			
 			file.close();
@@ -149,8 +142,8 @@ void Azienda::calcola_guadagno(int idE, int q) { 	//calcola guadagno ed aggiorna
 	pVendita = catalogo[pos].getPrice();			//leggo prezzo di vendita
 	
 	for (int i = 0; i<catalogo[pos].get_Comp().size(); i++) {
-		qC = catalogo[pos].get_Comp()[i].get_quantita();	//trovo  quantità e id del componente utlizzato
-		id = catalogo[pos].get_Comp()[i].get_id();
+		qC = catalogo[pos].get_Comp()[i].getQ();	//trovo  quantità e id del componente utlizzato
+		id = catalogo[pos].get_Comp()[i].getId();
 		double* prezzi = magazzino[trova_Componente(id, magazzino)].getPrice();
 		
 		if (qC >= 0 && qC <= 10)							//calcolo costo in base alla quantità
@@ -168,17 +161,9 @@ void Azienda::calcola_guadagno(int idE, int q) { 	//calcola guadagno ed aggiorna
 
 //helper funcion
 
-int trova_Componente(int id, const vector<Componente> &c){
+int trova_Componente(int id, const vector<Componente> &c) {
 	for (int i = 0; i<c.size(); i++) {
 		if (c[i].get_id()==id) 
-			return i;
-	}
-	return -1;
-}
-
-int trova_Elettrodomestico(int id, const vector<Elettrodomestico> &e){			//già fatta
-	for (int i = 0; i<e.size(); i++) {
-		if (e[i].getId()==id) 
 			return i;
 	}
 	return -1;

@@ -12,7 +12,7 @@ void Azienda::current_state()
 	for (int i = 0; i < cAttesa.size(); i++)
 	{
 		Componente c = cAttesa[i];
-		std::string s = to_string(c.get_id()) + ", " + c.get_nome() +": " + to_string(c.get_quantita());
+		std::string s = std::to_string(c.get_id()) + ", " + c.get_nome() +": " + std::to_string(c.get_quantita());
 		std::cout << s << '\n';
 	}
 
@@ -21,7 +21,7 @@ void Azienda::current_state()
 	for (int i = 0; i < magazzino.size(); i++)
 	{
 		Componente c = magazzino[i];
-		std::string s = to_string(c.get_id()) + ", " + c.get_nome() + ": " + to_string(c.get_quantita());
+		std::string s = std::to_string(c.get_id()) + ", " + c.get_nome() + ": " + std::to_string(c.get_quantita());
 		std::cout << s << '\n';
 	}	
 
@@ -30,7 +30,7 @@ void Azienda::current_state()
 	for (int i = 0; i < evasi.size(); i++)
 	{
 		Ordine e = evasi[i];
-		std::string s = to_string(e.getId()) + ": " + to_string(e.getQ());
+		std::string s = std::to_string(e.getId()) + ": " + std::to_string(e.getQ());
 		std::cout << s << '\n';
 	}
 }
@@ -58,7 +58,7 @@ void Azienda::lista_attesaOrdini() //ordina vettore ordini secondo timestamp
 	sort(ordini.begin(), ordini.end(), cmp);
 }
 
-int trova_Elettrodomestico(int id, const vector<Elettrodomestico>& e)
+int trova_Elettrodomestico(int id, const std::vector<Elettrodomestico>& e) 
 {
 	for (int i = 0; i < e.size(); i++) {
 			if (e[i].getId() == id)
@@ -77,8 +77,7 @@ void Azienda::commissione_ordini()
 	{
 		Ordine o = ordini[i];
 		int j = trova_Elettrodomestico(o.getId(), catalogo);
-		Elettrodomestico e = catalogo[j];
-		v(0);                      //sommo ordini dello stesso elettrodomestico (e con stesso time_stamp)
+		Elettrodomestico e = catalogo[j];                    //sommo ordini dello stesso elettrodomestico (e con stesso time_stamp)
 		int t = 0;
 		int k = trova_Elettrodomestico(o.getId(), v);
 		if (k == -1)

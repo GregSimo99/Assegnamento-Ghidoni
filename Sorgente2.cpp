@@ -6,8 +6,7 @@
 
 using namespace std;
 
-
-int Azienda::prox_mese() 
+int Azienda::prox_mese()
 {
 	++mese;
 	_sleep(1500); //attesa di 1.5 secondi per simulare il trascorrere dei mesi
@@ -24,20 +23,20 @@ void Azienda::produzione() //legge i componenti necessari per la produzione
 		Elettrodomestico& el = ordiniP[i];
 		if (el.getStato()) //se è stato prodotto l'elettrodomestico
 		{
-			evasi.push_back(Ordine(el.getId(), 0, el.getQ(), 0));
+			evasi.push_back(Ordine(el.getId(), 0, el.getQ()));
 			ordiniP.erase(ordiniP.begin() + i);
 		}
 
 		else //ordine non ancora processato
 		{
-			vector<Componente_richiesto>& comp = el.getComp(); //vettore che contiene i componenti di ogni elettrodomestico da produrre
+			vector<Componente_richiesto>& comp = el.get_Comp(); //vettore che contiene i componenti di ogni elettrodomestico da produrre
 			int k = el.getQ(); //k contiene la quantità degli elettrodomestici da produrre
 
 			bool evadere = true;
-			for (int j = 0, j < comp.size(), j++)
+			for (int j = 0; j < comp.size(); j++)
 			{
-				int id = comp[j].get_id();
-				int quantita = k * comp[j].get_quantita();
+				int id = comp[j].getId();
+				int quantita = k * comp[j].getQ();
 
 				bool esito = ricerca_comp(id, quantita); //true se trovato il componente, false altrimenti
 
@@ -54,15 +53,15 @@ void Azienda::produzione() //legge i componenti necessari per la produzione
 			
 			if (evadere)
 			{
-				e.setStato(true);
-				for (int i = 0; i < comp.size[]; i++) tolgo_magazzino(comp[i].get_id(), k * comp[i].get_quantita());
+				el.setStato(true);
+				for (int i = 0; i < comp.size(); i++) tolgo_magazzino(comp[i].getId(), k * comp[i].getQ());
 			}
 		}
 	}
 }
 
 
-bool Azienda::ricerca_comp(int id, int quantita) //controlla se ci sono i componenti necessari per produrre l'ordine
+bool Azienda::ricerca_comp(int id, int quantita) const //controlla se ci sono i componenti necessari per produrre l'ordine
 { 
 
 	for (int i = 0; i < magazzino.size(); i++)
@@ -72,6 +71,6 @@ bool Azienda::ricerca_comp(int id, int quantita) //controlla se ci sono i compon
 
 		if (id == comp.get_id() && quantita <= comp.get_quantita())	return true;
 
-		return false
+		return false;
 	}
 }
