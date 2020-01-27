@@ -95,7 +95,7 @@ public:
 	bool altri_ordini();
 	
 private:										
-    int cassa, mese;
+    int cassa, mese,totOrdini;
     vector<Elettrodomestico> catalogo;
 	vector<Elettrodomestico> ordiniP;				//ordini in produzione così posso sommare ordini di elettrodomestici uguali
     vector<Ordine> ordini;

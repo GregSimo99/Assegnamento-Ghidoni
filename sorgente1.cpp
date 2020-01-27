@@ -51,6 +51,7 @@ Azienda::Azienda(){
 	lettura_componentsInfo();
 	lettura_elettrodomestici();
 	lettura_ordini();
+	totOrdini = ordini.size();
 }
 Azienda::~Azienda(){}
 
@@ -184,7 +185,7 @@ int trova_Elettrodomestico(int id, const vector<Elettrodomestico> &e){			//già 
 }
 
 bool Azienda::altri_ordini(){
-	if (ordini.size()==evasi.size()) 
+	if (totOrdini==evasi.size()) 
 		return false;
 	else
 		return true;
