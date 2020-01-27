@@ -1,7 +1,7 @@
 //Perini Mattia	  1162399
 
 #include <iostream>
-#include <stdlib.h>
+#include <windows.h>
 #include "header.h"
 
 using namespace std;
@@ -9,7 +9,7 @@ using namespace std;
 int Azienda::prox_mese()
 {
 	++mese;
-	_sleep(1500); //attesa di 1.5 secondi per simulare il trascorrere dei mesi
+	Sleep(1500); //attesa di 1.5 secondi per simulare il trascorrere dei mesi
 	cout << "----------  " << mese << "° mese  ----------" << endl;
 
 	return mese;
