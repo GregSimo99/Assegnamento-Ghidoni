@@ -57,7 +57,6 @@ Azienda::~Azienda(){}
 void Azienda::lettura_componentsInfo(){
     ifstream file("componets_info.txt");
     if (file.is_open()) {
-        cout<<endl<<"COMPONETS INFO"<<endl;
         while (file.good()) {
             int id;
             file>>id;
@@ -84,7 +83,6 @@ void Azienda::lettura_elettrodomestici(){
     string line;
     if (file.is_open()){
         while (getline(file,line)) {
-            cout<<line<<endl;
             ris.push_back(line);
         }
         file.close();
@@ -177,4 +175,17 @@ int trova_Componente(int id, const vector<Componente> &c){
 	return -1;
 }
 
+int trova_Elettrodomestico(int id, const vector<Elettrodomestico> &e){			//già fatta
+	for (int i = 0; i<e.size(); i++) {
+		if (e[i].getId()==id) 
+			return i;
+	}
+	return -1;
+}
 
+bool Azienda::altri_ordini(){
+	if (ordini.size()==evasi.size()) 
+		return false;
+	else
+		return true;
+}

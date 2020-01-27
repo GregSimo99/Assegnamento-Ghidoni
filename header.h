@@ -92,6 +92,7 @@ public:
 	bool ricerca_comp(int id, int quantita);	//funzione che controlla se ci sono i componenti in magazzino per produrlo
 	void tolgo_magazzino(int id, int quantita);	//funzione che diminuisce la quantita nel magazzino di un certo componente
 	void calcola_guadagno(int idE, int quantita);				//funzione che calcola il guadagno e aggiorna la cassa
+	bool altri_ordini();
 	
 private:										
     int cassa, mese;
