@@ -1,4 +1,0 @@
-model1.txt
-model2.txt
-model3.txt
-model4.txt
