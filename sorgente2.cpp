@@ -1,7 +1,6 @@
 //Perini Mattia	  1162399
 
 #include <iostream>
-#include <windows.h>
 #include "header.h"
 
 using namespace std;
@@ -9,18 +8,16 @@ using namespace std;
 int Azienda::prox_mese()
 {
 	++mese;
-	Sleep(1500); //attesa di 1.5 secondi per simulare il trascorrere dei mesi
-	cout << "----------  " << mese << "° mese  ----------" << endl;
-
 	return mese;
 }
 
 
 void Azienda::produzione() //legge i componenti necessari per la produzione
 { 
-	for (int i = 0; i < ordiniP.size(); i++)
-	{
-		Elettrodomestico& el = ordiniP[i];
+	int i = 0;
+	while (i < ordiniP.size()) {
+		Elettrodomestico el;
+		el = ordiniP[i];
 		if (el.getStato()) //se è stato prodotto l'elettrodomestico
 		{
 			evasi.push_back(Ordine(el.getId(), 0, el.getQ()));
@@ -29,7 +26,7 @@ void Azienda::produzione() //legge i componenti necessari per la produzione
 
 		else //ordine non ancora processato
 		{
-			vector<Componente_richiesto>& comp = el.get_Comp(); //vettore che contiene i componenti di ogni elettrodomestico da produrre
+			vector<Componente_richiesto>& comp = ordiniP[i].get_Comp(); //vettore che contiene i componenti di ogni elettrodomestico da produrre
 			int k = el.getQ(); //k contiene la quantità degli elettrodomestici da produrre
 
 			bool evadere = true;
@@ -53,9 +50,10 @@ void Azienda::produzione() //legge i componenti necessari per la produzione
 			
 			if (evadere)
 			{
-				el.setStato(true);
+				ordiniP[i].setStato(true);
 				for (int i = 0; i < comp.size(); i++) tolgo_magazzino(comp[i].getId(), k * comp[i].getQ());
 			}
+			i++;
 		}
 	}
 }
@@ -71,6 +69,11 @@ bool Azienda::ricerca_comp(int id, int quantita) const //controlla se ci sono i 
 
 		if (id == comp.get_id() && quantita <= comp.get_quantita())	return true;
 
-		return false;
+		
 	}
+	return false;
+}
+
+void Azienda::stampa_mese(){
+	cout << "----------  " << mese << "° mese  ----------" << endl;
 }

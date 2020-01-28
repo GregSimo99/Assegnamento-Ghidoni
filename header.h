@@ -42,7 +42,7 @@ private:
 class Elettrodomestico
 {
 public:
-	Elettrodomestico(){};
+	Elettrodomestico(){}
 	Elettrodomestico(int i, std::string n, double p, std::vector<Componente_richiesto>& comp, int q);
     ~Elettrodomestico(){}
 	
@@ -98,6 +98,7 @@ public:
 	void calcola_guadagno(int idE, int quantita);				//funzione che calcola il guadagno e aggiorna la cassa
 	bool altri_ordini();
 	int prox_mese();
+	void stampa_mese();
 	
 private:										
     int cassa, mese, totOrdini;
@@ -116,4 +117,3 @@ int trova_Elettrodomestico(int id, const std::vector<Elettrodomestico>& e);
 bool cmp(Ordine a, Ordine b);
 
 #endif // !HEADER_H
-

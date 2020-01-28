@@ -36,16 +36,20 @@ void Azienda::current_state()
 }
 void Azienda::controllo_arrivi() //scansiono il vettore dei componenti in arrivo e se sono arrivati aggiorno il magazzino
 {
-	for (int i = 0; i < cAttesa.size(); i++)
-	{
+	int i = 0;
+	while (i < cAttesa.size()) {
 		Componente c = cAttesa[i];
 		if (c.get_arrivo() == mese)
 		{
 			int p = trova_Componente(c.get_id(), magazzino);
-			Componente m = magazzino[p];
+			Componente& m = magazzino[p];
 			m.set_quantita(m.get_quantita() + c.get_quantita());
-			cAttesa.erase(cAttesa.begin() + i);
-		}			
+			if (cAttesa.size()!=0) {
+					cAttesa.erase(cAttesa.begin() + i);
+			}
+		}
+		else 
+			i++;
 	}
 }
 
@@ -70,29 +74,34 @@ int trova_Elettrodomestico(int id, const std::vector<Elettrodomestico>& e)
 //funzione che cerca nel vettore ordini quelli con time_stamp = al mese e li carica come elettrodomestico (cercando l'id in catalogo) in ordiniP
 void Azienda::commissione_ordini()
 {
-	//vettore ordini gi‡ ordinato secondo time_stamp
-	int i = 0;
+	//vettore ordini gi√† ordinato secondo time_stamp
+	
 	std::vector<Elettrodomestico> v;
-	while(ordini[i].getTs()==mese)
-	{
-		Ordine o = ordini[i];
-		int j = trova_Elettrodomestico(o.getId(), catalogo);
-		Elettrodomestico e = catalogo[j];                    //sommo ordini dello stesso elettrodomestico (e con stesso time_stamp)
-		int t = 0;
-		int k = trova_Elettrodomestico(o.getId(), v);
-		if (k == -1)
+	
+		while(ordini.size()>0 && ordini[0].getTs()==mese)
 		{
-			v.push_back(e);
-			v[t].setQ(o.getQ());
-			t++;
+			Ordine o = ordini[0];
+			int j = trova_Elettrodomestico(o.getId(), catalogo);
+			//Elettrodomestico e = catalogo[j];                    //sommo ordini dello stesso elettrodomestico (e con stesso time_stamp)
+			int t = 0;
+			int k = trova_Elettrodomestico(o.getId(), v);
+			if (k == -1)
+			{
+				v.push_back(catalogo[j]);
+				v[t].setQ(o.getQ());
+				t++;
+			}
+			else
+			{
+				v[k].setQ(v[k].getQ() + o.getQ());
+			}
+			if (ordini.size()!=0) {
+				ordini.erase(ordini.begin()); //cancello da ordini quelli che ho messo in ordiniP?
+			}
+			//i++;
 		}
-		else
-		{
-			v[k].setQ(v[k].getQ() + o.getQ());
-		}
-		ordini.erase(ordini.begin() + i); //cancello da ordini quelli che ho messo in ordiniP?
-		i++;
-	}
+	
+	
 	for (int i = 0; i < v.size(); i++)
 		ordiniP.push_back(v[i]);
 }
@@ -113,6 +122,7 @@ bool Azienda::ordina_comp(int id, int quantita)
 	{
 		cAttesa.push_back(c);
 		cAttesa.back().setArrivo(c.getD_time() + mese);
+		cAttesa.back().set_quantita(quantita);
 		cassa = cassa - price * quantita;
 		return true;
 	}

@@ -41,6 +41,7 @@ Componente_richiesto::Componente_richiesto(int i, string n, int q){
 }
 
 Azienda::Azienda(){
+	mese = 0;
 	lettura_componentsInfo();
 	lettura_elettrodomestici();
 	lettura_ordini();
@@ -49,7 +50,7 @@ Azienda::Azienda(){
 Azienda::~Azienda(){}
 
 void Azienda::lettura_componentsInfo(){
-    ifstream file("componets_info.txt");
+    ifstream file("componets_info.dat");
     if (file.is_open()) {
         while (file.good()) {
             int id;
@@ -73,7 +74,7 @@ void Azienda::lettura_componentsInfo(){
 
 void Azienda::lettura_elettrodomestici(){
     vector<string> ris;
-    ifstream file("models.txt");
+    ifstream file("models.dat");
     string line;
     if (file.is_open()){
         while (getline(file,line)) {
@@ -109,7 +110,7 @@ void Azienda::lettura_elettrodomestici(){
 }
 
 void Azienda::lettura_ordini(){
-	ifstream file("orders.txt");							//CAMBIARE ESTENSIONE SU TUTTI!!
+	ifstream file("orders.dat");							//CAMBIARE ESTENSIONE SU TUTTI!!
     if (file.is_open()) {
 		int c = 0, ts = 0, iO = 0, q = 0;
 		file>>c;
@@ -137,25 +138,11 @@ void Azienda::tolgo_magazzino(int id, int quantita){
 }
 
 void Azienda::calcola_guadagno(int idE, int q) { 	//calcola guadagno ed aggiorna cassa
-	int costo = 0, pVendita = 0, qC = 0, id;
+	int pVendita = 0;
 	int pos = trova_Elettrodomestico(idE, catalogo);
 	pVendita = catalogo[pos].getPrice();			//leggo prezzo di vendita
 	
-	for (int i = 0; i<catalogo[pos].get_Comp().size(); i++) {
-		qC = catalogo[pos].get_Comp()[i].getQ();	//trovo  quantità e id del componente utlizzato
-		id = catalogo[pos].get_Comp()[i].getId();
-		double* prezzi = magazzino[trova_Componente(id, magazzino)].getPrice();
-		
-		if (qC >= 0 && qC <= 10)							//calcolo costo in base alla quantità
-			costo = costo+prezzi[0];
-		else 
-			if(qC >= 11 && qC <= 50)
-				costo = costo+prezzi[1];
-			else 
-				if(qC >= 51)
-					costo = costo+prezzi[2];
-	}
-	cassa = cassa+pVendita-costo*q;
+	cassa = cassa+pVendita*q;
 	
 }
 
