@@ -4,7 +4,13 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include "header.h"
+
+#include "Componente.h"
+#include "Componente_richiesto.h"
+#include "Elettrodomestico.h"
+#include "Ordine.h"
+#include "Azienda.h"
+
 void Azienda::current_state()
 {
 	//stampa componenti in arrivo
