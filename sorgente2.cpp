@@ -1,7 +1,6 @@
 //Perini Mattia	  1162399
 
 #include <iostream>
-#include <windows.h>
 #include "header.h"
 
 using namespace std;
@@ -9,19 +8,17 @@ using namespace std;
 int Azienda::prox_mese()
 {
 	++mese;
-	Sleep(1500); //attesa di 1.5 secondi per simulare il trascorrere dei mesi
-	cout << "----------  " << mese << "¬∞ mese  ----------" << endl;
-
 	return mese;
 }
 
 
 void Azienda::produzione() //legge i componenti necessari per la produzione
-{ 
-	for (int i = 0; i < ordiniP.size(); i++)
-	{
-		Elettrodomestico& el = ordiniP[i];
-		if (el.getStato()) //se √® stato prodotto l'elettrodomestico
+{
+	int i = 0;
+	while (i < ordiniP.size()) {
+		Elettrodomestico el;
+		el = ordiniP[i];
+		if (el.getStato()) //se Ë stato prodotto l'elettrodomestico
 		{
 			evasi.push_back(Ordine(el.getId(), 0, el.getQ()));
 			ordiniP.erase(ordiniP.begin() + i);
@@ -29,8 +26,8 @@ void Azienda::produzione() //legge i componenti necessari per la produzione
 
 		else //ordine non ancora processato
 		{
-			vector<Componente_richiesto>& comp = el.get_Comp(); //vettore che contiene i componenti di ogni elettrodomestico da produrre
-			int k = el.getQ(); //k contiene la quantit√† degli elettrodomestici da produrre
+			vector<Componente_richiesto>& comp = ordiniP[i].get_Comp(); //vettore che contiene i componenti di ogni elettrodomestico da produrre
+			int k = el.getQ(); //k contiene la quantit‡ degli elettrodomestici da produrre
 
 			bool evadere = true;
 			for (int j = 0; j < comp.size(); j++)
@@ -40,29 +37,30 @@ void Azienda::produzione() //legge i componenti necessari per la produzione
 
 				bool esito = ricerca_comp(id, quantita); //true se trovato il componente, false altrimenti
 
-				if (!esito) //se non √® in magazzino √® da ordinare
+				if (!esito) //se non Ë in magazzino Ë da ordinare
 				{
 					if (!comp[j].getStato())
 					{
 						bool ordinato = ordina_comp(id, quantita);
 						if (ordinato) comp[j].setStato(true);
 					}
-					evadere = false; //se manca un solo componente non si pu√≤ evadere l'ordine					
-				}				
+					evadere = false; //se manca un solo componente non si puÚ evadere l'ordine					
+				}
 			}
-			
+
 			if (evadere)
 			{
-				el.setStato(true);
+				ordiniP[i].setStato(true);
 				for (int i = 0; i < comp.size(); i++) tolgo_magazzino(comp[i].getId(), k * comp[i].getQ());
 			}
+			i++;
 		}
 	}
 }
 
 
 bool Azienda::ricerca_comp(int id, int quantita) const //controlla se ci sono i componenti necessari per produrre l'ordine
-{ 
+{
 
 	for (int i = 0; i < magazzino.size(); i++)
 	{
@@ -71,6 +69,11 @@ bool Azienda::ricerca_comp(int id, int quantita) const //controlla se ci sono i 
 
 		if (id == comp.get_id() && quantita <= comp.get_quantita())	return true;
 
-		return false;
+
 	}
+	return false;
+}
+
+void Azienda::stampa_mese() {
+	cout << "----------  " << mese << "∞ mese  ----------" << endl;
 }
