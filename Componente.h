@@ -1,3 +1,5 @@
+//Gregori Simone	1201534
+
 #ifndef COMPONENTE_H
 #define COMPONENTE_H
 #include <iostream>

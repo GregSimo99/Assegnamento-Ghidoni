@@ -1,3 +1,5 @@
+//Silvia Pasin  1189331
+
 #ifndef COMPONENTE_RICHIESTO_H
 #define COMPONENTE_RICHIESTO_H
 
