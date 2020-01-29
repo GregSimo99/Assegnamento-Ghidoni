@@ -2,8 +2,13 @@
 
 #include <iostream>
 #include <fstream>
-#include "header.h"
 #include <string.h>
+
+#include "Componente.h"
+#include "Componente_richiesto.h"
+#include "Elettrodomestico.h"
+#include "Ordine.h"
+#include "Azienda.h"
 
 //costruttori
 using namespace std;
