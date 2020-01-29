@@ -1,7 +1,12 @@
 //Perini Mattia	  1162399
 
 #include <iostream>
-#include "header.h"
+
+#include "Componente.h"
+#include "Componente_richiesto.h"
+#include "Elettrodomestico.h"
+#include "Ordine.h"
+#include "Azienda.h"
 
 using namespace std;
 
@@ -18,7 +23,7 @@ void Azienda::produzione() //legge i componenti necessari per la produzione
 	while (i < ordiniP.size()) {
 		Elettrodomestico el;
 		el = ordiniP[i];
-		if (el.getStato()) //se Ë stato prodotto l'elettrodomestico
+		if (el.getStato()) //se √® stato prodotto l'elettrodomestico
 		{
 			evasi.push_back(Ordine(el.getId(), 0, el.getQ()));
 			ordiniP.erase(ordiniP.begin() + i);
@@ -27,7 +32,7 @@ void Azienda::produzione() //legge i componenti necessari per la produzione
 		else //ordine non ancora processato
 		{
 			vector<Componente_richiesto>& comp = ordiniP[i].get_Comp(); //vettore che contiene i componenti di ogni elettrodomestico da produrre
-			int k = el.getQ(); //k contiene la quantit‡ degli elettrodomestici da produrre
+			int k = el.getQ(); //k contiene la quantit√† degli elettrodomestici da produrre
 
 			bool evadere = true;
 			for (int j = 0; j < comp.size(); j++)
@@ -37,14 +42,14 @@ void Azienda::produzione() //legge i componenti necessari per la produzione
 
 				bool esito = ricerca_comp(id, quantita); //true se trovato il componente, false altrimenti
 
-				if (!esito) //se non Ë in magazzino Ë da ordinare
+				if (!esito) //se non √® in magazzino √® da ordinare
 				{
 					if (!comp[j].getStato())
 					{
 						bool ordinato = ordina_comp(id, quantita);
 						if (ordinato) comp[j].setStato(true);
 					}
-					evadere = false; //se manca un solo componente non si puÚ evadere l'ordine					
+					evadere = false; //se manca un solo componente non si pu√≤ evadere l'ordine					
 				}
 			}
 
@@ -75,5 +80,5 @@ bool Azienda::ricerca_comp(int id, int quantita) const //controlla se ci sono i 
 }
 
 void Azienda::stampa_mese() {
-	cout << "----------  " << mese << "∞ mese  ----------" << endl;
+	cout << "----------  " << mese << "¬∞ mese  ----------" << endl;
 }
